@@ -41,10 +41,6 @@ module Locomotive
         self.setup_i18n_fallbacks
       end
 
-      def self.description
-        { overall: 'No documentation', actions: {} }
-      end
-
     end
   end
 end
