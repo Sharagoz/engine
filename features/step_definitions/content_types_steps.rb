@@ -10,7 +10,7 @@ def set_custom_fields_from_table(content_type, fields)
       target_name   = field.delete('target')
       target_model  = @site.content_types.where(:name => target_name).first
 
-      field['class_name'] = target_model.entries_class_name
+      field['class_name'] = target_model.klass_with_custom_fields(:entries).to_s
     end
 
     content_type.entries_custom_fields.build field

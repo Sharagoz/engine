@@ -3,14 +3,16 @@ module Locomotive
     module Filters
       module Misc
 
-        # was called modulo at first
-        def str_modulo(word, index, modulo)
+        def modulo(word, index, modulo)
           (index.to_i + 1) % modulo == 0 ? word : ''
         end
 
-        # Get the nth element of the passed in array
-        def index(array, position)
-          array.at(position) if array.respond_to?(:at)
+        def first(input)
+          input.first
+        end
+
+        def last(input)
+          input.last
         end
 
         def default(input, value)

@@ -1,7 +1,6 @@
 module Locomotive
   module Api
     class TranslationsController < BaseController
-
       load_and_authorize_resource :class => Locomotive::Translation, through: :current_site
 
       def index

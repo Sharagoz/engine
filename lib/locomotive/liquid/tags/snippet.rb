@@ -10,10 +10,10 @@ module Locomotive
         def initialize(tag_name, markup, tokens, context)
           super
 
-          @slug = @template_name.gsub(/['"]/o, '')
+          @slug = @template_name.gsub('\'', '')
 
           if @context[:snippets].present?
-            (@context[:snippets] << @slug).uniq!
+            (@context[:snippets] << @slug).uniq! 
           else
             @context[:snippets] = [@slug]
           end
@@ -56,14 +56,6 @@ module Locomotive
             @snippet_id = snippet.id
             @partial = ::Liquid::Template.parse(snippet.template, @context.clone)
             @partial.root.context.clear
-          end
-        end
-
-        def nodelist
-          if @partial
-            @partial.root.nodelist
-          else
-            []
           end
         end
 

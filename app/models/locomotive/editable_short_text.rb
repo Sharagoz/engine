@@ -33,6 +33,10 @@ module Locomotive
       self.attributes['default_content']  = el.default_content_translations
     end
 
+    def to_presenter
+      Locomotive::EditableShortTextPresenter.new(self)
+    end
+
     def set_default_content_from(el)
       super(el)
 

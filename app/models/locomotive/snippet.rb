@@ -26,6 +26,14 @@ module Locomotive
 
     ## methods ##
 
+    def to_presenter
+      Locomotive::SnippetPresenter.new(self)
+    end
+
+    def as_json(options = {})
+      self.to_presenter.as_json
+    end
+
     protected
 
     def normalize_slug

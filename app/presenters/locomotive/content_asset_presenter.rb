@@ -1,18 +1,9 @@
 module Locomotive
   class ContentAssetPresenter < BasePresenter
 
-    ## properties ##
+    delegate :content_type, :width, :height, :vignette_url, :to => :source
 
-    properties :content_type, :width, :height
-
-    with_options :only_getter => true do |presenter|
-      presenter.properties :filename, :full_filename, :short_name, :extname
-      presenter.properties :vignette_url, :url, :content_type_text
-    end
-
-    property :source, :only_setter => true
-
-    ## custom getters / setters ##
+    delegate :content_type=, :width=, :height=, :source=, :to => :source
 
     def full_filename
       self.source.source_filename
@@ -37,6 +28,14 @@ module Locomotive
 
     def url
       self.source.source.url
+    end
+
+    def included_methods
+      super + %w(full_filename filename short_name extname content_type content_type_text url vignette_url width height)
+    end
+
+    def included_setters
+      super + %w(content_type source)
     end
 
   end

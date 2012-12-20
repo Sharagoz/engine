@@ -31,6 +31,10 @@ module Locomotive
       end
     end
 
+    def to_presenter
+      Locomotive::EditableControlPresenter.new(self)
+    end
+
     protected
 
     def propagate_content

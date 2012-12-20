@@ -3,8 +3,8 @@ module Locomotive
     class MembershipsController < BaseController
 
       # It's an embedded document, so we'll just load manually
-      before_filter :load_membership,   :only => [:show, :update, :destroy]
-      before_filter :load_memberships,  :only => [:index]
+      before_filter :load_membership, :only => [:show, :update, :destroy]
+      before_filter :load_memberships, :only => [:index]
 
       authorize_resource :class => Locomotive::Membership
 
@@ -17,15 +17,16 @@ module Locomotive
       end
 
       def create
+        build_params = params[:membership].merge({ :role => 'author' }) # force author by default
         @membership = current_site.memberships.new
-        @membership.from_presenter(params[:membership].merge(:role => 'author')) # force author by default
-        @membership.save
+        @membership_presenter = @membership.to_presenter
+        @membership_presenter.update_attributes(build_params)
         respond_with(@membership)
       end
 
       def update
-        @membership.from_presenter(params[:membership])
-        @membership.save
+        @membership_presenter = @membership.to_presenter
+        @membership_presenter.update_attributes(params[:membership])
         respond_with(@membership)
       end
 
