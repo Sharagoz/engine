@@ -8,6 +8,7 @@ module Locomotive
 
     isolate_namespace Locomotive
 
+    paths['mongodb/migrate'] = 'mongodb/migrate'
     # config.autoload_once_paths += %W( #{config.root}/app/controllers #{config.root}/app/models #{config.root}/app/helpers #{config.root}/app/uploaders)
 
     initializer 'locomotive.cells' do |app|
@@ -16,6 +17,10 @@ module Locomotive
 
     initializer 'locomotive.action_controller' do |app|
       ::ActionController::Base.wrap_parameters :format => [:json]
+    end
+
+    initializer 'locomotive.devise' do |app|
+      ::DeviseController.respond_to :html, :json
     end
 
     initializer "Locomotive precompile hook", :group => :all do |app|

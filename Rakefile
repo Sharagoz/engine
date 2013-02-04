@@ -6,10 +6,10 @@ rescue LoadError
 end
 
 APP_RAKEFILE = File.expand_path("../spec/dummy/Rakefile", __FILE__)
+load APP_RAKEFILE
 
 # === Locomotive tasks ===
 load 'lib/tasks/locomotive.rake'
-load 'lib/tasks/locomotive_api_doc.rake'
 
 # === Gems install tasks ===
 Bundler::GemHelper.install_tasks

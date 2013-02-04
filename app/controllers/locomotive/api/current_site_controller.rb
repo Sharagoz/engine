@@ -1,6 +1,6 @@
 module Locomotive
   module Api
-    class CurrentSiteController < BaseController
+    class CurrentSiteController < Api::BaseController
 
       def show
         @site = current_site
@@ -11,7 +11,8 @@ module Locomotive
       def update
       	@site = current_site
       	authorize! :update, @site
-      	@site.update_attributes(params[:site])
+        @site.from_presenter(params[:site])
+        @site.save
       	respond_with(@site)
       end
 

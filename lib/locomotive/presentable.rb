@@ -12,14 +12,15 @@ module Locomotive
       # keep tracks of the getters and setters
       class << self; attr_accessor :getters, :setters, :property_options end
 
-      attr_reader :source, :options
+      # __source is a reference to the main object (__ is for variable protection)
+      attr_reader :__source, :__options
 
     end
 
     # Initializer
     def initialize(object, options = {})
-      @source   = object
-      @options  = options || {}
+      @__source   = object
+      @__options  = options || {}
 
       self.after_initialize
     end
@@ -37,14 +38,16 @@ module Locomotive
     # @param [ Hash ] value The attributes
     #
     def attributes=(values)
-      run_callbacks :set_attributes do
-        return unless values
+      return unless values
 
+      @_attributes = values # memoize them for the callbacks
+
+      run_callbacks :set_attributes do
         _values = values.stringify_keys
 
         self.setters.each do |name|
           if _values.has_key?(name)
-            _options = self.property_options[name]
+            _options = self.property_options[name] || {}
 
             if _options[:if].blank? || self.instance_eval(&_options[:if])
               self.send(:"#{name}=", _values[name])
@@ -64,10 +67,11 @@ module Locomotive
       methods ||= self.getters
       {}.tap do |hash|
         methods.each do |meth|
-          value     = self.send(meth.to_sym)
-          _options  = self.property_options[meth]
+          _options = self.property_options[meth]
 
           if _options[:if].blank? || self.instance_eval(&_options[:if])
+            value = self.send(meth.to_sym)
+
             if !value.nil? || (_options && !!_options[:allow_nil])
               hash[meth] = value
             end
@@ -154,7 +158,7 @@ module Locomotive
       # @param [ Hash ] options The options related to the collection (:alias)
       #
       def collection(name, options = {})
-        property(name, options.merge(:collection => true))
+        property(name, options.merge(collection: true, type: 'Array'))
       end
 
       def define_getter(name, collection = false)
@@ -163,10 +167,10 @@ module Locomotive
         class_eval <<-EOV
           def #{name}
             if #{collection.to_s}
-              list = self.source.send(:#{name})
+              list = self.__source.send(:#{name})
               list ? list.map(&:as_json) : []
             else
-              self.source.send(:#{name})
+              self.__source.send(:#{name})
             end
           end
         EOV
@@ -178,7 +182,7 @@ module Locomotive
 
         class_eval <<-EOV
           def #{name}=(value)
-            self.source.send(:#{name}=, value)
+            self.__source.send(:#{name}=, value)
           end
         EOV
 

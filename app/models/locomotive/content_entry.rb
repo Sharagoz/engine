@@ -122,6 +122,24 @@ module Locomotive
       end
     end
 
+    # All the content entries no matter the content type they belong to
+    # share the same presenter class.
+    #
+    # @param [ Class ] The content entry presenter class
+    #
+    def self.presenter_class
+      Locomotive::ContentEntryPresenter
+    end
+
+    # All the content entries no matter the content type they belong to
+    # share the same liquid drop class.
+    #
+    # @param [ Class ] The liquid drop class
+    #
+    def self.drop_class
+      Locomotive::Liquid::Drops::ContentEntry
+    end
+
     protected
 
     # Retrieve the next or the previous entry following the order

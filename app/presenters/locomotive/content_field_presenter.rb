@@ -3,28 +3,33 @@ module Locomotive
 
     ## properties ##
 
-    properties  :name, :label, :type, :hint, :required, :localized, :position
+    properties  :name, :label, :type
+
+    properties  :required, :localized, type: 'Boolean'
+
+    properties  :hint, :position, required: false
 
     # text type field
-    properties  :text_formatting, :if => Proc.new { source.type.to_s == 'text' }
+    properties  :text_formatting, if: Proc.new { __source.type.to_s == 'text' }, description: 'text'
 
     # relationship type field
-    with_options :if => Proc.new { source.is_relationship? } do |presenter|
-      presenter.properties  :class_name, :inverse_of, :order_by, :ui_enabled
-      presenter.property    :class_slug, :only_getter => true
+    with_options if: Proc.new { __source.is_relationship? }, description: 'belongs_to, has_many, many_to_many' do |presenter|
+      presenter.properties  :class_name, :inverse_of, :order_by
+      presenter.property    :ui_enabled, type: 'Boolean'
+      presenter.property    :class_slug, only_getter: true
     end
 
     # select type field
-    with_options :if => Proc.new { source.type.to_s == 'select' } do |presenter|
-      presenter.property    :select_options,      :only_getter => true
-      presenter.property    :raw_select_options,  :alias => :select_options
+    with_options if: Proc.new { __source.type.to_s == 'select' }, type: 'Array', description: 'select' do |presenter|
+      presenter.property    :select_options,      only_getter: true
+      presenter.property    :raw_select_options,  alias: :select_options
     end
 
     ## other getters / setters ##
 
     def raw_select_options
-      self.source.select_options.collect do |option|
-        { :id => option._id, :name => option.name_translations, :position => position }
+      self.__source.select_options.collect do |option|
+        { id: option._id, name: option.name_translations, position: position }
       end
     end
 
@@ -36,23 +41,23 @@ module Locomotive
           name = translations[self.site.default_locale]
         end
 
-        option = self.source.select_options.where(:name => name).first
-        option ||= self.source.select_options.build
+        option = self.__source.select_options.where(name: name).first
+        option ||= self.__source.select_options.build
 
         option.attributes = attributes
       end
     end
 
     def class_slug
-      self.content_type.class_name_to_content_type(self.source.class_name).try(:slug)
+      self.content_type.class_name_to_content_type(self.__source.class_name).try(:slug)
     end
 
     def class_name=(value)
       if value =~ /^Locomotive::Entry/
-        self.source.class_name = value
+        self.__source.class_name = value
       else
-        if content_type = self.site.content_types.where(:slug => value).first
-          self.source.class_name = content_type.entries_class_name
+        if content_type = self.site.content_types.where(slug: value).first
+          self.__source.class_name = content_type.entries_class_name
         end
       end
     end
@@ -60,7 +65,7 @@ module Locomotive
     ## other methods ##
 
     def content_type
-      self.source.content_type
+      self.__source.content_type
     end
 
     def site

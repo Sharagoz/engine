@@ -8,22 +8,22 @@ module Locomotive
         included do
 
           ## fields ##
-          field :templatized,             :type => Boolean, :default => false
-          field :templatized_from_parent, :type => Boolean, :default => false
+          field :templatized,             type: Boolean, default: false
+          field :templatized_from_parent, type: Boolean, default: false
           field :target_klass_name
 
           ## validations ##
-          validates_presence_of :target_klass_name, :if => :templatized?
+          validates_presence_of :target_klass_name, if: :templatized?
           validate              :ensure_target_klass_name_security
 
           ## callbacks ##
           before_validation :get_templatized_from_parent
-          before_validation :set_slug_if_templatized
           before_validation :ensure_target_klass_name_security
+          after_validation  :set_slug_if_templatized
           after_save        :propagate_templatized
 
           ## scopes ##
-          scope :templatized, :where => { :templatized => true }
+          scope :templatized, where: { templatized: true }
 
           ## virtual attributes ##
           attr_accessor :content_entry
@@ -63,7 +63,7 @@ module Locomotive
         # @return [ Object ] The content type or nil if not found
         #
         def target_klass_slug=(slug)
-          if @content_type = self.site.content_types.where(:slug => slug).first
+          if @content_type = self.site.content_types.where(slug: slug).first
             self.target_klass_name = @content_type.entries_class_name
           end
           @content_type
@@ -100,6 +100,22 @@ module Locomotive
         #
         def fetch_target_entry(permalink)
           target_klass.find_by_permalink(permalink)
+        end
+
+        # Find all the ordered entries of the target klass filtered or not
+        # by the conditions passed in parameter.
+        #
+        # @param [ Hash ] conditions The conditions used to filter the entries (optional)
+        #
+        # @return [ Object ] The documents
+        #
+        def fetch_target_entries(conditions = {})
+          if self.target_klass_name =~ /^Locomotive::Entry([a-z0-9]+)$/
+            @content_type ||= self.site.content_types.find($1)
+            @content_type.ordered_entries(conditions)
+          else
+            []
+          end
         end
 
         protected
@@ -154,7 +170,7 @@ module Locomotive
             }
           }
 
-          self.collection.update selector, operations, :multi => true
+          self.collection.update selector, operations, multi: true
         end
 
       end

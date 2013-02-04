@@ -3,16 +3,16 @@ module Locomotive
 
     ## properties ##
     properties  :name, :email, :locale
-    property    :admin, :only_getter => true
+    property    :admin, only_getter: true
 
-    with_options :only_setter => true do |presenter|
+    with_options only_setter: true do |presenter|
       presenter.properties :password, :password_confirmation
     end
 
     ## other getters / setters ##
 
     def admin
-      self.source.admin?
+      self.__source.admin?
     end
 
   end
