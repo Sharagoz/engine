@@ -30,7 +30,6 @@ class Locomotive.Views.Shared.AssetPickerView extends Backbone.View
     @dialog ||= $(@el).dialog
       autoOpen:     false
       modal:        true
-      zIndex:       window.application_view.unique_dialog_zindex()
       dialogClass:  @dialog_class()
       width:        615
       minHeight:    520

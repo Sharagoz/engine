@@ -109,13 +109,6 @@ class Locomotive.Views.InlineEditor.ApplicationView extends Backbone.View
         event.preventDefault()
         window.open url
 
-  unique_dialog_zindex: ->
-    # returns the number of jQuery UI modals created in order to set a valid zIndex for each of them.
-    # Each modal window should have a different zIndex, otherwise there will be conflicts between them.
-    window.Locomotive.jQueryModals ||= 0
-
-    1050 + window.Locomotive.jQueryModals++
-
   _window: ->
      @iframe[0].contentWindow
 

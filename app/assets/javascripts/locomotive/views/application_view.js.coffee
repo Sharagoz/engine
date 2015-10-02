@@ -93,11 +93,3 @@ class Locomotive.Views.ApplicationView extends Backbone.View
     window.Locomotive.tinyMCE.defaultSettings.language  = tinymce_locale
     window.Locomotive.tinyMCE.minimalSettings.language  = tinymce_locale
     window.Locomotive.tinyMCE.popupSettings.language    = tinymce_locale
-
-  unique_dialog_zindex: ->
-    # returns the number of jQuery UI modals created in order to set a valid zIndex for each of them.
-    # Each modal window should have a different zIndex, otherwise there will be conflicts between them.
-    window.Locomotive.jQueryModals ||= 0
-
-    # 998 + window.Locomotive.jQueryModals++
-    300000 + window.Locomotive.jQueryModals++

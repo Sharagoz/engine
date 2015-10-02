@@ -30,7 +30,6 @@ class Locomotive.Views.Shared.Fields.SelectView extends Backbone.View
     @dialog = $(@el).dialog
       autoOpen: false
       modal:    true
-      zIndex:   window.application_view.unique_dialog_zindex()
       width:    770,
       create: (event, ui) =>
         $(@el).prev().find('.ui-dialog-title').html(@$('h2').html())

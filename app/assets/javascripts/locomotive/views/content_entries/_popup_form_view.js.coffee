@@ -29,7 +29,6 @@ class Locomotive.Views.ContentEntries.PopupFormView extends Locomotive.Views.Con
       autoOpen:     false
       modal:        true
       dialogClass:  'content-entry-popup'
-      zIndex:       window.application_view.unique_dialog_zindex()
       width:        770,
       create: (event, ui) =>
         $(@el).prev().find('.ui-dialog-title').html(@$('h2').html())
