@@ -100,7 +100,6 @@
       bottom: -8px;
       right: 0px;
       width: 100%;
-      z-index: 995;
 
       div {
         @include box-shadow(rgba(0, 0, 0, 0.4) 0px 0px 10px 0px);
@@ -110,7 +109,6 @@
     }
 
     &:first-child {
-      z-index: 990;
       margin-left: 0;
       a {
         @include border-top-left-radius(4px);
@@ -122,10 +120,6 @@
       div.shadow { // TODO
         left: 6px;
       }
-    }
-
-    @for $i from 1 through 10 {
-      &.entry-#{$i} { z-index: 990 - $i; }
     }
   }
 }

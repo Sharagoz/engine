@@ -27,7 +27,6 @@
     display: block;
     position: static;
     height: auto;
-    z-index: 100;
 
     background: #fff;
 
@@ -60,7 +59,6 @@
 
   .ui-dialog-content {
     position: relative;
-    // z-index: 1200;
 
     text-align: left;
 
@@ -109,7 +107,6 @@
   .ui-dialog-buttonpane {
     position: relative;
 
-    z-index: 999;
     margin: 0px 0 0 0px;
     padding: 10px;
 

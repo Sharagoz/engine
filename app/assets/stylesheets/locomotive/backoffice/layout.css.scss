@@ -86,7 +86,6 @@ body {
   #content {
     position: relative;
     overflow: hidden;
-    z-index: 997;
 
     top: -1px;
     padding-bottom: 8px;
@@ -95,8 +94,6 @@ body {
       position: relative;
       margin: 0px 8px;
       padding: 10px 15px 66px 15px;
-
-      // z-index: 100;
 
       background: #fff;
 

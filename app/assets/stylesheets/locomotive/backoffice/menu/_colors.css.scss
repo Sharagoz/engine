@@ -7,8 +7,6 @@
 @mixin locomotive-menu-entry($color_top, $color_bottom: $color_top) {
   $color_bottom: $color_top !default;
 
-  z-index: 995;
-
   a {
     @include background-image(linear-gradient($color_top, $color_bottom));
 
