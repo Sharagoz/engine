@@ -65,7 +65,7 @@ class Locomotive.Views.Shared.AssetPickerView extends Backbone.View
     $(@el).parents('.ui-dialog').effect('shake', { times: 4 }, 100)
 
   center: ->
-    $(@el).dialog('option', 'position', 'center')
+    $(@el).dialog('option', 'position', { my: "center", at: "center", of: window })
 
   add_assets: (collection) ->
     collection.each (asset) =>

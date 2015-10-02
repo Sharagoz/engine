@@ -69,7 +69,7 @@ class Locomotive.Views.ContentEntries.PopupFormView extends Locomotive.Views.Con
     $(@el).dialog('close')
 
   center: ->
-    $(@el).dialog('option', 'position', 'center')
+    $(@el).dialog('option', 'position', { my: "center", at: "center", of: window })
 
   reset: (entry) =>
     @model.reset_attributes()

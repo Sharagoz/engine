@@ -83,5 +83,5 @@ class Locomotive.Views.Shared.Fields.SelectView extends Backbone.View
     $(@el).dialog('close')
 
   center: ->
-    $(@el).dialog('option', 'position', 'center')
+    $(@el).dialog('option', 'position', { my: "center", at: "center", of: window })
 

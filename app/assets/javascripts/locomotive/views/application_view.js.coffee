@@ -28,7 +28,7 @@ class Locomotive.Views.ApplicationView extends Backbone.View
 
   center_ui_dialog: ->
     $(window).resize ->
-      $('.ui-dialog-content:visible').dialog('option', 'position', 'center')
+      $('.ui-dialog-content:visible').dialog('option', 'position', { my: "center", at: "center", of: window })
 
   add_submenu_behaviours: ->
     $('#submenu ul li.hoverable').each ->
