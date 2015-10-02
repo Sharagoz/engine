@@ -237,6 +237,12 @@ nb:
         title: "Sett inn media"
         no_items: "Det finnes ingen media foreløpig."
         upload: "Last opp media"
+        placeholder_search: Søk etter filnavn
+        types:
+          pdf: PDF
+          image: Bilder
+          media: Media
+          others: Andre
 
     content_types:
       index:
